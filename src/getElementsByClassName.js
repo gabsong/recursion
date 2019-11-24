@@ -7,21 +7,17 @@
 var getElementsByClassName = function(className) {
 
   const checkNodeContainsClass = function(node, accumulator) {
-    if (!node.classList) {
-      return;
-    }
-
-    if (node.classList.contains(className)) {
+    if (node.classList && node.classList.contains(className)) {
       accumulator.push(node);
     }
 
     const childCount = node.childNodes.length;
     if (childCount === 0) {
       return;
-    }
-
-    for (let i = 0; i < childCount; i++) {
-      checkNodeContainsClass(node.childNodes[i], accumulator);
+    } else {
+      for (let i = 0; i < childCount; i++) {
+        checkNodeContainsClass(node.childNodes[i], accumulator);
+      }
     }
   };
 
