@@ -5,36 +5,27 @@
 
 // But instead we're going to implement it from scratch:
 var getElementsByClassName = function(className) {
+
+  const checkNodeContainsClass = function(node, accumulator) {
+    if (!node.classList) {
+      return;
+    }
+
+    if (node.classList.contains(className)) {
+      accumulator.push(node);
+    }
+
+    const childCount = node.childNodes.length;
+    if (childCount === 0) {
+      return;
+    }
+
+    for (let i = 0; i < childCount; i++) {
+      checkNodeContainsClass(node.childNodes[i], accumulator);
+    }
+  };
+
   const result = [];
-
-  const checkNodeContainsClass = (node) => {
-    if (node.classList !== undefined) {
-      return node.classList.contains(className);
-    } else {
-      return false;
-    }
-  };
-
-  const countClassElements = (node) => {
-    if (checkNodeContainsClass(node) === true) {
-      result.push(node);
-    }
-
-    for (let i = 0; i < node.childNodes.length; i++) {
-      countClassElements(node.childNodes[i]);
-    }
-  };
-
-  countClassElements(document.body);
-
+  checkNodeContainsClass(document.body, result);
   return result;
 };
-
-// Q: How many elements are of class "className"?
-// A: Let me check with document.body
-// - document.body: let me check with the children
-// -- children: let me check with the grandchildren
-// --- grandchildren: return 3
-// -- children: return 3 + 4
-// - parent: return 3 + 4 + 1
-// A: we have a total of 8!
