@@ -4,24 +4,18 @@
 // };
 
 // But instead we're going to implement it from scratch:
-var getElementsByClassName = function(className) {
+var getElementsByClassName = function(className, node) {
+  let accumulator = [];
+  node = node || document.body;
 
-  const checkNodeContainsClass = function(node, accumulator) {
-    if (node.classList && node.classList.contains(className)) {
-      accumulator.push(node);
-    }
+  if (node.classList.contains(className)) {
+    accumulator.push(node);
+  }
 
-    const childCount = node.childNodes.length;
-    if (childCount === 0) {
-      return;
-    } else {
-      for (let i = 0; i < childCount; i++) {
-        checkNodeContainsClass(node.childNodes[i], accumulator);
-      }
-    }
-  };
+  for (let i = 0; i < node.children.length; i++) {
+    const childResults = getElementsByClassName(className, node.children[i]);
+    accumulator = accumulator.concat(childResults);
+  }
 
-  const result = [];
-  checkNodeContainsClass(document.body, result);
-  return result;
+  return accumulator;
 };
