@@ -20,10 +20,10 @@ var stringifyJSON = function(obj) {
       return '[' + obj.map((item, i) => stringifyJSON(item)).join(',') + ']';
     }
   } else if (Object(obj) === obj) {
-    let result = [];
+    const result = [];
     for (key in obj) {
-      if (typeof obj[key] === 'function' || typeof obj[key] === 'undefined') {
-        delete obj[key];
+      if (typeof obj[key] === 'function' || obj[key] === undefined) {
+        continue;
       } else {
         result.push(`${stringifyJSON(key)}:${stringifyJSON(obj[key])}`);
       }
