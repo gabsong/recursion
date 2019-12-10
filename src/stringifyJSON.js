@@ -19,9 +19,13 @@ var stringifyJSON = function(obj) {
     } else {
       return '[' + obj.map((item, i) => stringifyJSON(item)).join(',') + ']';
     }
+  } else if (typeof obj === 'function') {
+    // do nothing
+  } else if (obj === undefined) {
+    // do nothing
   } else if (Object(obj) === obj) {
     const result = [];
-    for (key in obj) {
+    for (let key in obj) {
       if (typeof obj[key] === 'function' || obj[key] === undefined) {
         continue;
       } else {
