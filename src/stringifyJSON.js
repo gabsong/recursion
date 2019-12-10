@@ -21,8 +21,10 @@ var stringifyJSON = function(obj) {
     }
   } else if (typeof obj === 'function') {
     // do nothing
+    return '';
   } else if (obj === undefined) {
     // do nothing
+    return '';
   } else if (Object(obj) === obj) {
     const result = [];
     for (let key in obj) {
